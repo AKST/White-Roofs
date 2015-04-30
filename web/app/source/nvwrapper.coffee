@@ -124,6 +124,9 @@ EggChartDrawer = class EggChartDrawer
       value: (parseFloat(d[f]) for d in data.feeds)[0]
 
   drawChart: (data) ->
+
+    @svg.selectAll("*").remove()
+
     @svg.append('text')
       .text 'Would it cook an egg?'
       .attr 'x', 0
@@ -141,13 +144,13 @@ EggChartDrawer = class EggChartDrawer
 
     formatted = @__structure data
 
-    circle = @svg.selectAll('image').data(formatted)
+    egg = @svg.selectAll('image').data(formatted)
     text   = @svg.selectAll('#label').data(formatted)
 
     radius = @__parsePx(@svg.style('height')) / 4.75
     width  = @__parsePx(@svg.style 'width') - radius*3
 
-    circle.enter().append('image')
+    egg.enter().append('image')
       .attr "y", (@__parsePx(@svg.style('height')) / 2) - (radius * 1.25)
       .attr "x", (d, i) =>
         (radius*1.5 + (i * (width / (formatted.length-1)))) - radius
@@ -176,7 +179,7 @@ EggChartDrawer = class EggChartDrawer
       .attr("text-anchor", 'middle')
       .text (d) -> d.label
 
-    circle.exit().remove()
+    egg.exit().remove()
 
 
 
